@@ -1,8 +1,10 @@
+import itertools
+
 def calculate(s: str, goal: int) -> int:
-    nums = [int(line) for line in open(s).readlines()]
-    for n in nums:
-        if goal - n in nums:
-            return (goal - n) * n
+    nums = sorted([int(line) for line in open(s).readlines()], reverse=True)
+    for a, b, c in itertools.combinations(nums, 3):
+        if a + b + c == goal:
+            return a * b * c
     return 0
 
 if __name__ == "__main__":
