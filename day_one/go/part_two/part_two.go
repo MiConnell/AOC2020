@@ -11,7 +11,6 @@ import (
 
 
 func checkList() int {
-	var strNums []string
 	var intNums []int
 
 	f, err := os.Open("../blob.txt")
@@ -22,15 +21,11 @@ func checkList() int {
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		strNums = append(strNums, scanner.Text())
-	}
-
-	for _, i := range strNums {
-		s, err := strconv.Atoi(i)
+		intText, err := strconv.Atoi(scanner.Text())
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
-		intNums = append(intNums, s)
+		intNums = append(intNums, intText)
 	}
 
 	for i := range itertools.CombinationsInt(intNums, 3) {
