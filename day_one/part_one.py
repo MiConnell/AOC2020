@@ -7,4 +7,4 @@ def calculate(s: str, goal: int) -> int:
 
 
 if __name__ == "__main__":
-    print(calculate('./blob.txt', 2020))
+    print(calculate("./blob.txt", 2020))
