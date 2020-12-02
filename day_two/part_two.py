@@ -8,10 +8,7 @@ def password_validator(file: str) -> int:
             second_index = int(params.split("-")[-1]) - 1
             char = line[1].replace(":", "")
             password = line[-1]
-            if (
-                char in (password[first_index], password[second_index])
-                and password[first_index] != password[second_index]
-            ):
+            if (char == password[first_index]) ^ (char == password[second_index]):
                 total += 1
     return total
 
