@@ -1,17 +1,41 @@
-def password_validator(file: str) -> int:
+file = "./blob.txt"
+
+
+def _counter(file: str, x_shift: int, y_shift: int) -> int:
     with open(file, "r") as f:
         total = 0
-        for line in f.readlines():
-            line = line.split()
-            params = line[0]
-            first_index = int(params.split("-")[0]) - 1
-            second_index = int(params.split("-")[-1]) - 1
-            char = line[1].replace(":", "")
-            password = line[-1]
-            if (char == password[first_index]) ^ (char == password[second_index]):
+        lines = [line.replace("\n", "") for line in f.readlines()]
+        x, y = 0, 0
+        x += x_shift
+        x %= len(lines[0])
+        y += y_shift
+        while y < len(lines):
+            if lines[y][x] == "#":
                 total += 1
+            x += x_shift
+            x %= len(lines[0])
+            y += y_shift
+
     return total
 
 
+def tree_counter(file: str) -> int:
+    return (
+        _counter(file, 1, 1)
+        * _counter(file, 3, 1)
+        * _counter(file, 5, 1)
+        * _counter(file, 7, 1)
+        * _counter(file, 1, 2)
+    )
+
+
 if __name__ == "__main__":
-    print(password_validator("./blob.txt"))
+    print(tree_counter(file))
+
+"""
+Right 1, down 1.
+Right 3, down 1. (This is the slope you already checked.)
+Right 5, down 1.
+Right 7, down 1.
+Right 1, down 2.
+"""
