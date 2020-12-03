@@ -6,10 +6,10 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
-func checkList() int {
-	var intNums []int
+func passwordValidator() int {
 
 	f, err := os.Open("../blob.txt")
 	if err != nil {
@@ -18,25 +18,26 @@ func checkList() int {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
+	total := 0
 	for scanner.Scan() {
-		intText, err := strconv.Atoi(scanner.Text())
+		text := strings.Fields(scanner.Text())
+		params := text[0]
+		min, err := strconv.Atoi(strings.Split(params, "-")[0])
+		max, err := strconv.Atoi(strings.Split(params, "-")[1])
+		char := strings.Replace(text[1], ":", "", -1)
+		password := text[len(text)-1]
+		if strings.Contains(password, char) && min <= strings.Count(password, char) && strings.Count(password, char) <= max {
+			total++
+		}
+
 		if err != nil {
 			log.Fatal(err)
 		}
-		intNums = append(intNums, intText)
 	}
+	return total
 
-	for _, i := range intNums {
-		for _, j := range intNums {
-			if i+j == 2020 {
-				return i * j
-			}
-		}
-	}
-
-	return 0
 }
 
 func main() {
-	fmt.Println(checkList())
+	fmt.Println(passwordValidator())
 }
