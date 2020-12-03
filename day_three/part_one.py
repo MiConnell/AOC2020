@@ -1,16 +1,17 @@
 def tree_counter(file: str) -> int:
+    total = 0
     with open(file, "r") as f:
-        total = 0
-        lines = [line.replace("\n", "") for line in f.readlines()]
+        trees = [line.replace('\n', '') for line in f.readlines()]
         x, y = 0, 0
         x += 3
-        x %= len(lines[0])
+        print(x + (x % len(trees[0])))
+        x %= len(trees[0])
         y += 1
-        while y < len(lines):
-            if lines[y][x] == "#":
+        while y < len(trees):
+            if trees[y][x] == "#":
                 total += 1
             x += 3
-            x %= len(lines[0])
+            x %= len(trees[0])
             y += 1
 
     return total
