@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
-func passwordValidator() int {
+var file string = "../blob.txt"
 
-	f, err := os.Open("../blob.txt")
+func privateCounter(file string, xShift int, yShift int) int {
+	f, err := os.Open(file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,32 +18,38 @@ func passwordValidator() int {
 
 	scanner := bufio.NewScanner(f)
 	total := 0
+	var trees []string
 	for scanner.Scan() {
-		text := strings.Fields(scanner.Text())
-		params := text[0]
-		firstIndex, err := strconv.Atoi(strings.Split(params, "-")[0])
-		secondIndex, err := strconv.Atoi(strings.Split(params, "-")[1])
-		char := strings.Replace(text[1], ":", "", -1)
-		password := text[len(text)-1]
-		runes := []rune(password)
-		if char == string(runes[firstIndex-1]) {
-			if string(runes[firstIndex-1]) != string(runes[secondIndex-1]) {
-				total++
-			}
-		}
-		if char == string(runes[secondIndex-1]) {
-			if string(runes[firstIndex-1]) != string(runes[secondIndex-1]) {
-				total++
-			}
-		}
+		text := scanner.Text()
+		trees = append(trees, text)
+	}
 
-		if err != nil {
-			log.Fatal(err)
+	x := 0
+	y := 0
+	x += xShift
+	x %= len(trees[0])
+	y += yShift
+	for y < len(trees) {
+		if trees[y][x] == '#' {
+			total++
 		}
+		x += xShift
+		x %= len(trees[0])
+		y += yShift
 	}
 	return total
 }
 
+func treeCounter(file string) int {
+
+	return (
+		privateCounter(file, 1, 1) *
+		privateCounter(file, 3, 1) *
+		privateCounter(file, 5, 1) *
+		privateCounter(file, 7, 1) *
+		privateCounter(file, 1, 2))
+}
+
 func main() {
-	fmt.Println(passwordValidator())
+	fmt.Println(treeCounter(file))
 }

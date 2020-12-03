@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
-func passwordValidator() int {
+func treeCounter() int {
 
 	f, err := os.Open("../blob.txt")
 	if err != nil {
@@ -19,25 +17,29 @@ func passwordValidator() int {
 
 	scanner := bufio.NewScanner(f)
 	total := 0
+	var trees []string
 	for scanner.Scan() {
-		text := strings.Fields(scanner.Text())
-		params := text[0]
-		min, err := strconv.Atoi(strings.Split(params, "-")[0])
-		max, err := strconv.Atoi(strings.Split(params, "-")[1])
-		char := strings.Replace(text[1], ":", "", -1)
-		password := text[len(text)-1]
-		if strings.Contains(password, char) && min <= strings.Count(password, char) && strings.Count(password, char) <= max {
-			total++
-		}
-
-		if err != nil {
-			log.Fatal(err)
-		}
+		text := scanner.Text()
+		trees = append(trees, text)
 	}
-	return total
 
+	x := 0
+	y := 0
+	x += 3
+	x %= len(trees[0])
+	y ++
+	for y < len(trees) {
+		if trees[y][x] == '#' {
+			total ++
+		}
+		x += 3
+		x %= len(trees[0])
+		y ++
+	}
+
+return total
 }
 
 func main() {
-	fmt.Println(passwordValidator())
+	fmt.Println(treeCounter())
 }
