@@ -1,17 +1,22 @@
-def password_validator(file: str) -> int:
+
+def tree_counter(file: str) -> int:
     with open(file, "r") as f:
         total = 0
-        for line in f.readlines():
-            line = line.split()
-            params = line[0]
-            min_ = int(params.split("-")[0])
-            max_ = int(params.split("-")[-1])
-            char = line[1].replace(":", "")
-            password = line[-1]
-            if char in password and min_ <= password.count(char) <= max_:
+        lines = [line.replace('\n', '') for line in f.readlines()]
+        print(lines)
+        x, y = 0, 0
+        x += 3
+        x %= len(lines[0])
+        y += 1
+        while y < len(lines):
+            if lines[y][x] == "#":
                 total += 1
+            x += 3
+            x %= len(lines[0])
+            y += 1
+
     return total
 
 
 if __name__ == "__main__":
-    print(password_validator("./blob.txt"))
+    print(tree_counter("./blob.txt"))
