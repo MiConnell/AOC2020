@@ -9,7 +9,7 @@ import (
 
 func treeCounter() int {
 
-	f, err := os.Open("../blob.txt")
+	f, err := os.Open("./blob.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

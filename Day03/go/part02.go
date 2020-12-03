@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var file string = "../blob.txt"
+var file string = "./blob.txt"
 
 func privateCounter(file string, xShift int, yShift int) int {
 	f, err := os.Open(file)
