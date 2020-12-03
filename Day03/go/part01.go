@@ -27,17 +27,17 @@ func treeCounter() int {
 	y := 0
 	x += 3
 	x %= len(trees[0])
-	y ++
+	y++
 	for y < len(trees) {
 		if trees[y][x] == '#' {
-			total ++
+			total++
 		}
 		x += 3
 		x %= len(trees[0])
-		y ++
+		y++
 	}
 
-return total
+	return total
 }
 
 func main() {

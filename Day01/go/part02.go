@@ -3,12 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/ernestosuarez/itertools"
 	"log"
 	"os"
 	"strconv"
-	"github.com/ernestosuarez/itertools"
 )
-
 
 func checkList() int {
 	var intNums []int
@@ -29,7 +28,7 @@ func checkList() int {
 	}
 
 	for i := range itertools.CombinationsInt(intNums, 3) {
-		if i[0] + i[1] + i[2] == 2020 {
+		if i[0]+i[1]+i[2] == 2020 {
 			return i[0] * i[1] * i[2]
 		}
 	}

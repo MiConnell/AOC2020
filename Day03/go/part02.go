@@ -42,8 +42,7 @@ func privateCounter(file string, xShift int, yShift int) int {
 
 func treeCounter(file string) int {
 
-	return (
-		privateCounter(file, 1, 1) *
+	return (privateCounter(file, 1, 1) *
 		privateCounter(file, 3, 1) *
 		privateCounter(file, 5, 1) *
 		privateCounter(file, 7, 1) *
