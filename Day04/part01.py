@@ -18,7 +18,7 @@ def passport_validator(file: str) -> int:
             check = [a.split(":")[0] for a in p.split(" ")]
             if "cid" in check:
                 check.remove("cid")
-            if len(list(set(check))) > 6:
+            if len(check) > 6:
                 total += 1
     return total
 
