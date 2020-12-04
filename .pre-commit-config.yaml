@@ -31,3 +31,11 @@ repos:
     rev: 59b49e77e418526be489c303b87fa2e19342fe6a
     hooks:
     -   id: pyupgrade
+
+- repo: git://github.com/dnephin/pre-commit-golang
+  rev: master
+  hooks:
+    - id: go-fmt
+    - id: go-lint
+    - id: go-imports
+    - id: go-mod-tidy
