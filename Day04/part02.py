@@ -1,4 +1,6 @@
-import re
+from typing import Dict
+
+from future.types import issubset
 
 REQUIRED = {
     "byr",
@@ -9,6 +11,9 @@ REQUIRED = {
     "ecl",
     "pid",
 }
+
+allowed_chars = {"0123456789abcdef"}
+
 
 """
 byr (Birth Year) - four digits; at least 1920 and at most 2002.
@@ -24,29 +29,41 @@ cid (Country ID) - ignored, missing or not.
 """
 
 
-def value_checker(key: str, val: str) -> bool:
-    if key == "byr":
-        return 1920 <= int(val) <= 2002
-    if key == "iyr":
-        return 2010 <= int(val) <= 2020
-    if key == "eyr":
-        return 2020 <= int(val) <= 2030
-    if key == "hgt":
-        if val[-2:] == "cm":
-            return 150 <= int(val) <= 193
-        elif val[-2:] == "in":
-            return 59 <= int(val) <= 76
-    if key == "hcl":
-        return 150 <= int(val) <= 193
-    if key == "ecl":
-        return val in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
-    if key == "pid":
-        if int(val[0]) == 0:
-            return int(val[0:]) <= 99999999
-        return 150 <= int(val) <= 193
-    if key == "cid":
-        print("uwu")
-    return False
+def value_checker(d: Dict[str, str]) -> bool:
+    result = False
+    for key, val in d.items():
+        try:
+            if key == "byr" and 1920 <= int(val) <= 2002:
+                result = True
+            if key == "iyr" and 2010 <= int(val) <= 2020:
+                result = True
+            if key == "eyr" and 2020 <= int(val) <= 2030:
+                result = True
+            if key == "hgt":
+                if val[-2:] == "cm" and 150 <= int(val) <= 193:
+                    result = True
+                elif val[-2:] == "in" and 59 <= int(val) <= 76:
+                    result = True
+            if key == "hcl" and val[0] == "#" and set(val[0:]).issubset(allowed_chars):
+                result = True
+            if key == "ecl" and val in [
+                "amb",
+                "blu",
+                "brn",
+                "gry",
+                "grn",
+                "hzl",
+                "oth",
+            ]:
+                result = True
+            if key == "pid":
+                if int(val[0]) == 0:
+                    return int(val[0:]) <= 99999999
+                else:
+                    return int(val) <= 99999999
+        except ValueError:
+            result = False
+    return result
 
 
 def passport_validator(file: str) -> int:
@@ -56,14 +73,15 @@ def passport_validator(file: str) -> int:
         for p in passports:
             p = p.replace("\n", " ").strip()
             check = [a.split(":") for a in p.split(" ")]
-            keys = []
-            values = []
-            passw_dict = {}
-            for c in check:
-                keys.append(c[0])
-                values.append(c[1])
-            for k, v in zip(keys, values):
-                passw_dict[k] = v
+            if len(check) > 6:
+                keys = []
+                values = []
+                for c in check:
+                    keys.append(c[0])
+                    values.append(c[1])
+                passw_dict = {k: v for k, v in zip(keys, values)}
+                if value_checker(passw_dict):
+                    total += 1
     return total
 
 
