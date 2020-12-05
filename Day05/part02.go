@@ -5,50 +5,65 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
+	"strings"
 )
 
-var file string = "./blob.txt"
+func fileReader(file string) []string {
 
-func privateCounter(file string, xShift int, yShift int) int {
 	f, err := os.Open(file)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer f.Close()
-
+	var ret []string
 	scanner := bufio.NewScanner(f)
-	total := 0
-	var trees []string
+
 	for scanner.Scan() {
-		text := scanner.Text()
-		trees = append(trees, text)
+		ret = append(ret, scanner.Text())
 	}
 
-	x := 0
-	y := 0
-	x += xShift
-	x %= len(trees[0])
-	y += yShift
-	for y < len(trees) {
-		if trees[y][x] == '#' {
-			total++
-		}
-		x += xShift
-		x %= len(trees[0])
-		y += yShift
-	}
-	return total
+	return ret
 }
 
-func treeCounter(file string) int {
+func found(a int64, list []int64) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
+}
 
-	return (privateCounter(file, 1, 1) *
-		privateCounter(file, 3, 1) *
-		privateCounter(file, 5, 1) *
-		privateCounter(file, 7, 1) *
-		privateCounter(file, 1, 2))
+func seatFinder(s []string) int64 {
+	var seats []int64
+
+	for _, s := range s {
+		s = strings.Replace(strings.Replace(
+			strings.Replace(
+				strings.Replace(
+					s, "F", "0", -1),
+				"B", "1", -1),
+			"L", "0", -1),
+			"R", "1", -1)
+		intS, err := strconv.ParseInt(s, 2, 64)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		seats = append(seats, intS)
+	}
+
+	for _, b := range seats {
+		fmt.Println(found(b, seats))
+		if !found(b, seats) {
+			return b
+		}
+	}
+	return 0
 }
 
 func main() {
-	fmt.Println(treeCounter(file))
+	fmt.Println(seatFinder(fileReader("./blob.txt")))
 }
