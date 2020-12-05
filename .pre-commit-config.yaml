@@ -9,8 +9,6 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
     -   id: check-ast
-    -   id: check-json
-    -   id: name-tests-test
 
 -   repo: https://github.com/psf/black
     rev: 7f75fe3669ebf0627b1b0476a6d02047e909b959
