@@ -11,8 +11,6 @@ REQUIRED = {
     "pid",
 }
 
-allowed_chars = {"0123456789abcdef"}
-
 
 """
 byr (Birth Year) - four digits; at least 1920 and at most 2002.
@@ -29,24 +27,19 @@ cid (Country ID) - ignored, missing or not.
 
 
 def value_checker(dct: Dict[str, str]) -> bool:
-    if (
-        dct.keys() >= REQUIRED
-        and 1920 <= int(dct["byr"]) <= 2002
+    return (
+        1920 <= int(dct["byr"]) <= 2002
         and 2010 <= int(dct["iyr"]) <= 2020
         and 2020 <= int(dct["eyr"]) <= 2030
         and (m1 := re.match(r"^(\d+)(cm|in)$", dct["hgt"]))
         and (
-            m1[2] == "cm"
-            and 150 <= int(m1[1]) <= 193
-            or m1[2] == "in"
-            and 59 <= int(m1[1]) <= 76
+            (m1[2] == "cm" and 150 <= int(m1[1]) <= 193)
+            or (m1[2] == "in" and 59 <= int(m1[1]) <= 76)
         )
         and re.match("^#[a-f0-9]{6}$", dct["hcl"])
-        and dct["ecl"] in set("amb blu brn gry grn hzl oth".split())
+        and dct["ecl"] in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
         and re.match("^[0-9]{9}$", dct["pid"])
-    ):
-        return True
-    return False
+    )
 
 
 def passport_validator(file: str) -> int:
