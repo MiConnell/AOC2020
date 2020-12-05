@@ -15,8 +15,9 @@ def row_finder(row_string: str) -> int:
             row_range = row_range[bin_search(row_range) + 1 :]
         elif s == "F":
             row_range = row_range[: bin_search(row_range)]
-        rows.append(row_range)
-    return [r for r in rows if len(r) == 1][0][0]
+        if len(row_range) == 1:
+            rows.append(row_range)
+    return rows[0][0]
 
 
 def column_finder(column_string: str) -> int:
@@ -27,14 +28,15 @@ def column_finder(column_string: str) -> int:
             column_range = column_range[bin_search(column_range) + 1 :]
         elif s == "L":
             column_range = column_range[: bin_search(column_range)]
-        columns.append(column_range)
-    return [c for c in columns if len(c) == 1][0][0]
+        if len(column_range) == 1:
+            columns.append(column_range)
+    return columns[0][0]
 
 
 def seat_checker(file: str) -> int:
     with open(file, "r") as f:
         total = [
-            (row_finder(options[:7]) * 8) + column_finder(options[-3:])
+            (row_finder(options[:7]) * 8) + column_finder(options[-4:])
             for options in f.readlines()
         ]
 
@@ -43,3 +45,10 @@ def seat_checker(file: str) -> int:
 
 if __name__ == "__main__":
     print(seat_checker("./blob.txt"))
+
+
+"""
+BFFFBBFRRR: row 70, column 7, seat ID 567.
+FFFBBBFRRR: row 14, column 7, seat ID 119.
+BBFFBBFRLL: row 102, column 4, seat ID 820.
+"""
