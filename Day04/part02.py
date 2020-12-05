@@ -1,6 +1,5 @@
+import re
 from typing import Dict
-
-from future.types import issubset
 
 REQUIRED = {
     "byr",
@@ -29,41 +28,25 @@ cid (Country ID) - ignored, missing or not.
 """
 
 
-def value_checker(d: Dict[str, str]) -> bool:
-    result = False
-    for key, val in d.items():
-        try:
-            if key == "byr" and 1920 <= int(val) <= 2002:
-                result = True
-            if key == "iyr" and 2010 <= int(val) <= 2020:
-                result = True
-            if key == "eyr" and 2020 <= int(val) <= 2030:
-                result = True
-            if key == "hgt":
-                if val[-2:] == "cm" and 150 <= int(val) <= 193:
-                    result = True
-                elif val[-2:] == "in" and 59 <= int(val) <= 76:
-                    result = True
-            if key == "hcl" and val[0] == "#" and set(val[0:]).issubset(allowed_chars):
-                result = True
-            if key == "ecl" and val in [
-                "amb",
-                "blu",
-                "brn",
-                "gry",
-                "grn",
-                "hzl",
-                "oth",
-            ]:
-                result = True
-            if key == "pid":
-                if int(val[0]) == 0:
-                    return int(val[0:]) <= 99999999
-                else:
-                    return int(val) <= 99999999
-        except ValueError:
-            result = False
-    return result
+def value_checker(dct: Dict[str, str]) -> bool:
+    if (
+        dct.keys() >= REQUIRED
+        and 1920 <= int(dct["byr"]) <= 2002
+        and 2010 <= int(dct["iyr"]) <= 2020
+        and 2020 <= int(dct["eyr"]) <= 2030
+        and (m1 := re.match(r"^(\d+)(cm|in)$", dct["hgt"]))
+        and (
+            m1[2] == "cm"
+            and 150 <= int(m1[1]) <= 193
+            or m1[2] == "in"
+            and 59 <= int(m1[1]) <= 76
+        )
+        and re.match("^#[a-f0-9]{6}$", dct["hcl"])
+        and dct["ecl"] in set("amb blu brn gry grn hzl oth".split())
+        and re.match("^[0-9]{9}$", dct["pid"])
+    ):
+        return True
+    return False
 
 
 def passport_validator(file: str) -> int:
@@ -73,15 +56,9 @@ def passport_validator(file: str) -> int:
         for p in passports:
             p = p.replace("\n", " ").strip()
             check = [a.split(":") for a in p.split(" ")]
-            if len(check) > 6:
-                keys = []
-                values = []
-                for c in check:
-                    keys.append(c[0])
-                    values.append(c[1])
-                passw_dict = {k: v for k, v in zip(keys, values)}
-                if value_checker(passw_dict):
-                    total += 1
+            passw_dict = {k: v for k, v in check}
+            if passw_dict.keys() >= REQUIRED and value_checker(passw_dict):
+                total += 1
     return total
 
 
