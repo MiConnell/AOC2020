@@ -16,6 +16,7 @@ def seat_checker(file: str) -> int:
     for i in range(min(seats), maximum):
         if i not in seats:
             return i
+    return 0
 
 
 if __name__ == "__main__":
