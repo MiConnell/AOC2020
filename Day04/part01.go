@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
-func treeCounter() int {
+func passportValidator(file string) int {
 
-	f, err := os.Open("./blob.txt")
+	f, err := os.Open(file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -17,29 +18,29 @@ func treeCounter() int {
 
 	scanner := bufio.NewScanner(f)
 	total := 0
-	var trees []string
 	for scanner.Scan() {
-		text := scanner.Text()
-		trees = append(trees, text)
-	}
+		passports := strings.Split(strings.Replace(scanner.Text(), " ", "\n", -1), "\n\n")
+		for _, p := range passports {
 
-	x := 0
-	y := 0
-	x += 3
-	x %= len(trees[0])
-	y++
-	for y < len(trees) {
-		if trees[y][x] == '#' {
-			total++
 		}
-		x += 3
-		x %= len(trees[0])
-		y++
 	}
 
 	return total
 }
 
 func main() {
-	fmt.Println(treeCounter())
+	fmt.Println(passportValidator("./blob.txt"))
 }
+
+// def passport_validator(file: str) -> int:
+//     total = 0
+//     with open(file, "r") as f:
+//         passports = f.read().split("\n\n")
+//         for p in passports:
+//             p = p.replace("\n", " ").strip()
+//             check = [a.split(":")[0] for a in p.split(" ")]
+//             if "cid" in check:
+//                 check.remove("cid")
+//             if len(check) > 6:
+//                 total += 1
+//     return total
