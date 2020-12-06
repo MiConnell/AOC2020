@@ -26,13 +26,38 @@ func fileReader(file string) []string {
 	return ret
 }
 
-func found(a int64, list []int64) bool {
-	for _, b := range list {
-		if b == a {
-			return true
+func minValue(lst []int64) int64 {
+	var minimum int64 = 9999999
+
+	for _, l := range lst {
+		if l <= minimum {
+			minimum = l
 		}
 	}
-	return false
+	return minimum
+
+}
+
+func maxValue(lst []int64) int64 {
+	var maximum int64 = 0
+
+	for _, l := range lst {
+		if maximum <= l {
+			maximum = l
+		}
+	}
+
+	return maximum
+
+}
+
+func seatNotFound(a int64, list []int64) bool {
+	for _, b := range list {
+		if b == a {
+			return false
+		}
+	}
+	return true
 }
 
 func seatFinder(s []string) int64 {
@@ -55,10 +80,9 @@ func seatFinder(s []string) int64 {
 		seats = append(seats, intS)
 	}
 
-	for _, b := range seats {
-		fmt.Println(found(b, seats))
-		if !found(b, seats) {
-			return b
+	for i := minValue(seats); i <= maxValue(seats); i++ {
+		if seatNotFound(i, seats) {
+			return i
 		}
 	}
 	return 0
