@@ -1,26 +1,20 @@
-def seat_checker(file: str) -> int:
-    with open(file, "r") as f:
-        maximum = 0
-        for options in f.readlines():
-            options = (
-                options.strip()
-                .replace("F", "0")
-                .replace("B", "1")
-                .replace("L", "0")
-                .replace("R", "1")
-            )
-            maximum = max(maximum, int(options, 2))
+from typing import Set
 
-    return maximum
+COUNTLETTERS = {"a", "b", "c", "x", "y", "z"}
+
+
+def counter(s: Set[str]) -> int:
+    return len(s)
+
+
+def answer_checker(file: str) -> int:
+    total = 0
+    with open(file, "r") as f:
+        answers = [set(a.replace("\n", "")) for a in f.read().strip().split("\n\n")]
+        for ans in answers:
+            total += counter(ans)
+    return total
 
 
 if __name__ == "__main__":
-    print(seat_checker("./blob.txt"))
-
-
-"""
-FFBBFFFRRL
-BFFFBBFRRR: row 70, column 7, seat ID 567.
-FFFBBBFRRR: row 14, column 7, seat ID 119.
-BBFFBBFRLL: row 102, column 4, seat ID 820.
-"""
+    print(answer_checker("./blob.txt"))
