@@ -1,16 +1,9 @@
-from typing import Set
-
-
-def counter(s: Set[str]) -> int:
-    return len(s)
-
-
 def answer_checker(file: str) -> int:
     total = 0
     with open(file, "r") as f:
         answers = [set(a.replace("\n", "")) for a in f.read().strip().split("\n\n")]
         for ans in answers:
-            total += counter(ans)
+            total += len(ans)
     return total
 
 
