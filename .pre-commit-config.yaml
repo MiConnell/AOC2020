@@ -16,10 +16,10 @@ repos:
     hooks:
     -   id: black
 
--   repo: https://github.com/PyCQA/isort
-    rev: 7593b675996a2cd9ce5cda1e844e55e5718a689e
+-   repo: https://github.com/asottile/reorder_python_imports
+    rev: v2.3.6
     hooks:
-    -   id: isort
+    -   id: reorder-python-imports
 
 -   repo: https://github.com/asottile/add-trailing-comma
     rev: 228c670c6745c0f17fde36bb2db56c44751587b0
