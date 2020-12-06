@@ -1,6 +1,5 @@
 def counter(lst: list) -> int:
     total = [(let, lst[0].count(let)) for let in lst[0] if lst[0].count(let) == lst[1]]
-
     return len(set(total))
 
 
