@@ -1,10 +1,7 @@
 def answer_checker(file: str) -> int:
-    total = 0
     with open(file, "r") as f:
         answers = [set(a.replace("\n", "")) for a in f.read().strip().split("\n\n")]
-        for ans in answers:
-            total += len(ans)
-    return total
+        return sum(len(ans) for ans in answers)
 
 
 if __name__ == "__main__":
