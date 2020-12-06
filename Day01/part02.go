@@ -3,10 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/ernestosuarez/itertools"
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/ernestosuarez/itertools"
 )
 
 func checkList() int {
