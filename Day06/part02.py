@@ -9,10 +9,10 @@ def counter(lst: List[Any]) -> int:
 
 def answer_checker(file: str) -> int:
     with open(file, "r") as f:
-        answers = []
-        for a in f.read().strip().split("\n\n"):
-            count = len(a.split("\n"))
-            answers.append([a.replace("\n", ""), count])
+        answers = [
+            [a.replace("\n", ""), len(a.split("\n"))]
+            for a in f.read().strip().split("\n\n")
+        ]
         total = sum(counter(ans) for ans in answers)
     return total
 
