@@ -9,7 +9,7 @@ def answer_checker(file: str) -> int:
                 },
             )
             for (letter, value) in [
-                [a.replace("\n", ""), len(a.split("\n"))]
+                (a.replace("\n", ""), len(a.split("\n")))
                 for a in f.read().strip().split("\n\n")
             ]
         )
