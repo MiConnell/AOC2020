@@ -1,5 +1,6 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+# python
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
@@ -30,6 +31,12 @@ repos:
     hooks:
     -   id: pyupgrade
 
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: '6fd7e2a39e5a8f7c7b14ddcc5290ef69b0c446db'
+    hooks:
+    -   id: mypy
+
+# go
 - repo: git://github.com/dnephin/pre-commit-golang
   rev: master
   hooks:
