@@ -1,5 +1,7 @@
 import re
-from typing import Dict, Match, Union
+from typing import Dict
+from typing import Match
+from typing import Union
 
 REQUIRED = {
     "byr",
