@@ -1,7 +1,5 @@
 from typing import Set
 
-COUNTLETTERS = {"a", "b", "c", "x", "y", "z"}
-
 
 def counter(s: Set[str]) -> int:
     return len(s)
