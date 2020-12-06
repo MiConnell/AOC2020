@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Match, Union
 
 REQUIRED = {
     "byr",
@@ -26,7 +26,7 @@ cid (Country ID) - ignored, missing or not.
 """
 
 
-def value_checker(dct: Dict[str, str]) -> bool:
+def value_checker(dct: Dict[str, str]) -> Union[bool, Match[str], None]:
     return (
         1920 <= int(dct["byr"]) <= 2002
         and 2010 <= int(dct["iyr"]) <= 2020
