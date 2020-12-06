@@ -34,8 +34,8 @@ func minValue(lst []int64) int64 {
 			minimum = l
 		}
 	}
-	return minimum
 
+	return minimum
 }
 
 func maxValue(lst []int64) int64 {
@@ -48,7 +48,6 @@ func maxValue(lst []int64) int64 {
 	}
 
 	return maximum
-
 }
 
 func seatNotFound(a int64, list []int64) bool {
@@ -57,6 +56,7 @@ func seatNotFound(a int64, list []int64) bool {
 			return false
 		}
 	}
+
 	return true
 }
 
@@ -85,6 +85,7 @@ func seatFinder(s []string) int64 {
 			return i
 		}
 	}
+
 	return 0
 }
 
