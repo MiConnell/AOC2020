@@ -2,12 +2,12 @@ def password_validator(file: str) -> int:
     with open(file, "r") as f:
         total = 0
         for line in f.readlines():
-            line = line.split()
-            params = line[0]
+            ln = line.split()
+            params = ln[0]
             first_index = int(params.split("-")[0]) - 1
             second_index = int(params.split("-")[-1]) - 1
-            char = line[1].replace(":", "")
-            password = line[-1]
+            char = ln[1].replace(":", "")
+            password = ln[-1]
             if (char == password[first_index]) ^ (char == password[second_index]):
                 total += 1
     return total
