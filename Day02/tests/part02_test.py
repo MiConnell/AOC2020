@@ -1,3 +1,5 @@
+import os
+
 import part02
 
 test_file = os.path.join(os.path.dirname(__file__), "blob.txt")
