@@ -1,3 +1,8 @@
+import os
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
+
+
 def seat_checker(file: str) -> int:
     with open(file, "r") as f:
         maximum = 0
@@ -20,4 +25,4 @@ def seat_checker(file: str) -> int:
 
 
 if __name__ == "__main__":
-    print(seat_checker("./blob.txt"))
+    print(seat_checker(file))
