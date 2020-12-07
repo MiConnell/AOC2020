@@ -31,10 +31,10 @@ repos:
     hooks:
     -   id: pyupgrade
 
-# -   repo: https://github.com/pre-commit/mirrors-mypy
-#     rev: '6fd7e2a39e5a8f7c7b14ddcc5290ef69b0c446db'
-#     hooks:
-#     -   id: mypy
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: '6fd7e2a39e5a8f7c7b14ddcc5290ef69b0c446db'
+    hooks:
+    -   id: mypy
 
 # go
 - repo: git://github.com/dnephin/pre-commit-golang
