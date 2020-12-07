@@ -1,4 +1,6 @@
-file = "./blob.txt"
+import os
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
 def _counter(file: str, x_shift: int, y_shift: int) -> int:

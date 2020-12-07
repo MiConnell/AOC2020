@@ -1,3 +1,8 @@
+import os
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
+
+
 def tree_counter(file: str) -> int:
     total = 0
     with open(file, "r") as f:
@@ -17,4 +22,4 @@ def tree_counter(file: str) -> int:
 
 
 if __name__ == "__main__":
-    print(tree_counter("./blob.txt"))
+    print(tree_counter(file))
