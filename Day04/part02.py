@@ -1,7 +1,10 @@
+import os
 import re
 from typing import Dict
 from typing import Match
 from typing import Union
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 REQUIRED = {
     "byr",
@@ -58,4 +61,4 @@ def passport_validator(file: str) -> int:
 
 
 if __name__ == "__main__":
-    print(passport_validator("./blob.txt"))
+    print(passport_validator(file))
