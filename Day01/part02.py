@@ -1,4 +1,7 @@
 import itertools
+import os
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
 def calculate(s: str, goal: int) -> int:
@@ -10,4 +13,4 @@ def calculate(s: str, goal: int) -> int:
 
 
 if __name__ == "__main__":
-    print(calculate("./blob.txt", 2020))
+    print(calculate(file, 2020))
