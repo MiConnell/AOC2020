@@ -1,3 +1,8 @@
+import os
+
+file = os.path.join(os.path.dirname(__file__), "blob.txt")
+
+
 def password_validator(file: str) -> int:
     with open(file, "r") as f:
         total = 0
@@ -14,4 +19,4 @@ def password_validator(file: str) -> int:
 
 
 if __name__ == "__main__":
-    print(password_validator("./blob.txt"))
+    print(password_validator(file))
