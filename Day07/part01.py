@@ -42,3 +42,4 @@ vibrant plum bag | [faded blue bag, dotted black bag]
 faded blue bag   | [no other bag]
 dotted black bag | [no other bag]
 """
+# loop through main first, then inner?
