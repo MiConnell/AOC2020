@@ -36,7 +36,7 @@ def solver(file: str) -> int:
         options = [(__license__[0], __license__[1]) for __license__ in lines]
         try:
             inf_index(options, -1)
-            seen_indexes = {}
+            seen_indexes = set()
         except Exception as e:
             (seen_indexes,) = e.args
     for i in seen_indexes:
