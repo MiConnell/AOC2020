@@ -32,12 +32,11 @@ def inf_index(file: List[Tuple[str, str]], f: int) -> int:
 
 def solver(file: str) -> int:
     with open(file, "r") as f:
-        options = []
         lines = [line.strip().split(" ") for line in f.readlines()]
-        for l in lines:
-            options.append((l[0], l[1]))
+        options = [(__license__[0], __license__[1]) for __license__ in lines]
         try:
             inf_index(options, -1)
+            seen_indexes = {}
         except Exception as e:
             (seen_indexes,) = e.args
     for i in seen_indexes:
