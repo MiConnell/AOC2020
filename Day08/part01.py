@@ -1,14 +1,31 @@
 import os
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
-# file = "./tests/test_blob.txt"
 
 
 def solver(file: str) -> int:
     with open(file, "r") as f:
-        for line in f.readlines():
-            line
-    return 0
+        acc = 0
+        seen_indexes = set()
+        lines = [line.strip().split(" ") for line in f.readlines()]
+        ind = 0
+        while ind not in seen_indexes:
+            op = lines[ind][0]
+            val = lines[ind][1]
+            print(op, val)
+            if op == "acc":
+                acc += eval(val)
+                seen_indexes.add(ind)
+                ind += 1
+            elif op == "jmp":
+                seen_indexes.add(ind)
+                ind += eval(val)
+            elif op == "nop":
+                seen_indexes.add(ind)
+                ind += 1
+            else:
+                ind += 1
+    return acc
 
 
 if __name__ == "__main__":
