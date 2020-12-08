@@ -12,7 +12,6 @@ def solver(file: str) -> int:
         while ind not in seen_indexes:
             op = lines[ind][0]
             val = lines[ind][1]
-            print(op, val)
             if op == "acc":
                 acc += eval(val)
                 seen_indexes.add(ind)
@@ -22,8 +21,6 @@ def solver(file: str) -> int:
                 ind += eval(val)
             elif op == "nop":
                 seen_indexes.add(ind)
-                ind += 1
-            else:
                 ind += 1
     return acc
 
