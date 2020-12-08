@@ -7,11 +7,10 @@ def solver(file: str) -> int:
     with open(file, "r") as f:
         acc = 0
         seen_indexes = set()
-        lines = [line.strip().split(" ") for line in f.readlines()]
+        lines = [line.strip() for line in f.readlines()]
         ind = 0
         while ind not in seen_indexes:
-            op = lines[ind][0]
-            val = lines[ind][1]
+            op, val = lines[ind].split(" ")
             if op == "acc":
                 acc += eval(val)
                 seen_indexes.add(ind)
