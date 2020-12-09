@@ -6,7 +6,8 @@ import (
 	"log"
 	"os"
 	"strconv"
-	"strings"
+
+	"github.com/ernestosuarez/itertools"
 )
 
 func fileReader(file string) []string {
@@ -26,42 +27,57 @@ func fileReader(file string) []string {
 	return ret
 }
 
-func maxValue(lst []int64) int64 {
-	var maximum int64 = 0
+func solver(s []string, preamble int) string {
+	start := 0
+	var checklist []int
 
-	for _, l := range lst {
-		if maximum <= l {
-			maximum = l
+	for i := s[preamble]; i != s[len(s)-1]; {
+		for comb := range itertools.CombinationsStr(s[start:preamble:len(s)-1], 2) {
+			first, err := strconv.Atoi(comb[0])
+			if err != nil {
+				log.Fatal(err)
+			}
+			second, err := strconv.Atoi(comb[1])
+			if err != nil {
+				log.Fatal(err)
+			}
+			checklist = append(checklist, first+second)
 		}
+		goal, _ := strconv.Atoi(s[preamble])
+
+		found := find(checklist, goal)
+		if !found {
+			return s[preamble]
+		}
+		start++
+		preamble++
 	}
 
-	return maximum
-
+	return "0"
 }
 
-func seatChecker(s []string) int64 {
-	var seats []int64
-
-	for _, s := range s {
-		s = strings.Replace(strings.Replace(
-			strings.Replace(
-				strings.Replace(
-					s, "F", "0", -1),
-				"B", "1", -1),
-			"L", "0", -1),
-			"R", "1", -1)
-		intS, err := strconv.ParseInt(s, 2, 64)
-
-		if err != nil {
-			log.Fatal(err)
+func find(slice []int, val int) bool {
+	for item := range slice {
+		if item == val {
+			return true
 		}
-
-		seats = append(seats, intS)
 	}
-
-	return maxValue(seats)
+	return false
 }
 
 func main() {
-	fmt.Println(seatChecker(fileReader("./blob.txt")))
+	fmt.Println(solver(fileReader("./blob.txt"), 25))
 }
+
+// def solver(s: str, preamble: int) -> int:
+//     b = s.splitlines()
+//     start = 0
+//     while b[preamble] != b[-1]:
+//         checklist = [
+//             int(f) + int(s) for f, s in itertools.combinations(b[start:preamble], 2)
+//         ]
+//         if (goal := int(b[preamble])) not in checklist:
+//             return goal
+//         start += 1
+//         preamble += 1
+//     return 0
