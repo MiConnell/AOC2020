@@ -7,6 +7,11 @@ file = os.path.join(os.path.dirname(__file__), "blob.txt")
 swap = {"nop": "jmp", "jmp": "nop"}
 
 
+def file_reader(file: str) -> str:
+    with open(file, "r") as f:
+        return f.read()
+
+
 def inf_index(file: List[Tuple[str, str]], f: int) -> int:
     acc = 0
     ind = 0
@@ -30,15 +35,14 @@ def inf_index(file: List[Tuple[str, str]], f: int) -> int:
         raise RuntimeError(seen_indexes)
 
 
-def solver(file: str) -> int:
-    with open(file, "r") as f:
-        lines = [line.strip().split(" ") for line in f.readlines()]
-        options = [(__license__[0], __license__[1]) for __license__ in lines]
-        try:
-            inf_index(options, -1)
-            seen_indexes = set()
-        except Exception as e:
-            (seen_indexes,) = e.args
+def solver(s: str) -> int:
+    lines = [line.split(" ") for line in s.splitlines()]
+    options = [(line[0], line[1]) for line in lines]
+    try:
+        inf_index(options, -1)
+        seen_indexes = set()
+    except Exception as e:
+        (seen_indexes,) = e.args
     for i in seen_indexes:
         if options[i][0] in ["jmp", "noc"]:
             try:
@@ -49,4 +53,4 @@ def solver(file: str) -> int:
 
 
 if __name__ == "__main__":
-    print(solver(file))
+    print(solver(file_reader(file)))
