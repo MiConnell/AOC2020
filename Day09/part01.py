@@ -14,8 +14,7 @@ def solver(blob: str, preamble: int) -> int:
     start = 0
     while b[preamble] != b[-1]:
         checklist = [
-            int(num[0]) + int(num[1])
-            for num in itertools.combinations(b[start:preamble], 2)
+            int(f) + int(s) for f, s in itertools.combinations(b[start:preamble], 2)
         ]
         if (goal := int(b[preamble])) not in checklist:
             return goal
