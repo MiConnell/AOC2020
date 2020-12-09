@@ -1,9 +1,10 @@
 import os
 
-import part01
+from part01 import bag_check
+from part01 import file_reader
 
 test_file = os.path.join(os.path.dirname(__file__), "test_blob.txt")
 
 
 def test_part01():
-    assert part01.bag_check(test_file) == 4
+    assert bag_check(file_reader(test_file)) == 4
