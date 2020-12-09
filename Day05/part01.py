@@ -3,24 +3,28 @@ import os
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
-def seat_checker(file: str) -> int:
+def file_reader(file: str) -> str:
     with open(file, "r") as f:
-        maximum = 0
-        for options in f.readlines():
-            options = (
-                options.strip()
-                .replace("F", "0")
-                .replace("B", "1")
-                .replace("L", "0")
-                .replace("R", "1")
-            )
-            maximum = max(maximum, int(options, 2))
+        return f.read()
+
+
+def solver(s: str) -> int:
+    maximum = 0
+    for options in s.splitlines():
+        options = (
+            options.strip()
+            .replace("F", "0")
+            .replace("B", "1")
+            .replace("L", "0")
+            .replace("R", "1")
+        )
+        maximum = max(maximum, int(options, 2))
 
     return maximum
 
 
 if __name__ == "__main__":
-    print(seat_checker(file))
+    print(solver(file_reader(file)))
 
 
 """
