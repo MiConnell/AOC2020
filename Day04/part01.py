@@ -22,7 +22,7 @@ def file_reader(file: str) -> List[str]:
 def solver(s: List[str]) -> int:
     total = 0
     for p in s:
-        p = p.replace("\n", " ")
+        p = p.replace("\n", " ").strip()
         check = [a.split(":")[0] for a in p.split(" ")]
         if "cid" in check:
             check.remove("cid")
