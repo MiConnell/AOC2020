@@ -8,8 +8,8 @@ def file_reader(file: str) -> str:
         return f.read()
 
 
-def solver(blob: str) -> int:
-    for b in blob.splitlines():
+def solver(s: str) -> int:
+    for b in s.splitlines():
         ...
     return 0
 
