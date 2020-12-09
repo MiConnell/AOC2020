@@ -1,9 +1,10 @@
 import os
 
-import part01
+from part01 import file_reader
+from part01 import solver
 
 test_file = os.path.join(os.path.dirname(__file__), "test_blob.txt")
 
 
 def test_part01():
-    assert part01.calculate(test_file, 2020) == 514579
+    assert solver(file_reader(test_file), 2020) == 514579
