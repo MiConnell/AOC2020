@@ -27,7 +27,7 @@ func fileReader(file string) []string {
 	return ret
 }
 
-func solver(s []string, preamble int) string {
+func solver(s []string, preamble int) int {
 	start := 0
 	var checklist []int
 
@@ -43,17 +43,16 @@ func solver(s []string, preamble int) string {
 			}
 			checklist = append(checklist, first+second)
 		}
+
 		goal, _ := strconv.Atoi(s[preamble])
 
-		found := find(checklist, goal)
-		if !found {
-			return s[preamble]
+		if !find(checklist, goal) {
+			return goal
 		}
 		start++
 		preamble++
 	}
-
-	return "0"
+	return 0
 }
 
 func find(slice []int, val int) bool {
