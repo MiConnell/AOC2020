@@ -1,6 +1,7 @@
 import os
 import re
 from typing import Dict
+from typing import List
 from typing import Match
 from typing import Union
 
@@ -31,6 +32,11 @@ cid (Country ID) - ignored, missing or not.
 """
 
 
+def file_reader(file: str) -> List[str]:
+    with open(file, "r") as f:
+        return f.read().split("\n\n")
+
+
 def value_checker(dct: Dict[str, str]) -> Union[bool, Match[str], None]:
     return (
         1920 <= int(dct["byr"]) <= 2002
@@ -47,18 +53,16 @@ def value_checker(dct: Dict[str, str]) -> Union[bool, Match[str], None]:
     )
 
 
-def passport_validator(file: str) -> int:
+def solver(s: List[str]) -> int:
     total = 0
-    with open(file, "r") as f:
-        passports = f.read().split("\n\n")
-        for p in passports:
-            p = p.replace("\n", " ").strip()
-            check = [a.split(":") for a in p.split(" ")]
-            passw_dict = {k: v for k, v in check}
-            if passw_dict.keys() >= REQUIRED and value_checker(passw_dict):
-                total += 1
+    for p in s:
+        p = p.replace("\n", " ").strip()
+        check = [a.split(":") for a in p.split(" ")]
+        passw_dict = {k: v for k, v in check}
+        if passw_dict.keys() >= REQUIRED and value_checker(passw_dict):
+            total += 1
     return total
 
 
 if __name__ == "__main__":
-    print(passport_validator(file))
+    print(solver(file_reader(file)))
