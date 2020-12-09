@@ -23,11 +23,11 @@ def _solver(blob: str, preamble: int) -> int:
     return 0
 
 
-def solver(blob: str) -> int:
+def solver(blob: str, preamble: int) -> int:
     b = [int(b) for b in blob.splitlines()]
     start = 0
     end = 0
-    goal = _solver(file_reader(file), 25)
+    goal = _solver(file_reader(file), preamble)
     current = b[0]
     while True:
         if current < goal:
@@ -42,4 +42,4 @@ def solver(blob: str) -> int:
 
 
 if __name__ == "__main__":
-    print(solver(file_reader(file)))
+    print(solver(file_reader(file), 25))
