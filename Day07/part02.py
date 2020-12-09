@@ -3,10 +3,16 @@ import os
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
-def answer_checker(file: str) -> int:
+def file_reader(file: str) -> str:
     with open(file, "r") as f:
-        return 0
+        return f.read()
+
+
+def solver(s: str) -> int:
+    for line in s.splitlines():
+        ...
+    return 0
 
 
 if __name__ == "__main__":
-    print(answer_checker(file))
+    print(solver(file_reader(file)))

@@ -2,7 +2,6 @@ import os
 import re
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
-# file = "./tests/test_blob.txt"
 
 
 def file_reader(file: str) -> str:
@@ -10,10 +9,10 @@ def file_reader(file: str) -> str:
         return f.read()
 
 
-def bag_check(blob: str) -> int:
+def solver(s: str) -> int:
     bag_list = set()
-    for _ in range(7):
-        for line in blob.splitlines():
+    while True:
+        for line in s.splitlines():
             main_bag, inner = (
                 re.sub(r"[0-9]+", "", line)
                 .strip()
@@ -30,11 +29,11 @@ def bag_check(blob: str) -> int:
                 for i in inner_fmt:
                     if i.strip() in bag_list:
                         bag_list.add(main_bag.strip())
-    return len(bag_list)
+        return len(bag_list)
 
 
 if __name__ == "__main__":
-    print(bag_check(file_reader(file)))
+    print(solver(file_reader(file)))
 
 
 """
