@@ -1,13 +1,18 @@
 import os
+from typing import List
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
-def answer_checker(file: str) -> int:
+def file_reader(file: str) -> List[str]:
     with open(file, "r") as f:
-        answers = [set(a.replace("\n", "")) for a in f.read().strip().split("\n\n")]
-        return sum(len(ans) for ans in answers)
+        return f.read().split("\n\n")
+
+
+def solver(s: List[str]) -> int:
+    answers = [set(a.replace("\n", "")) for a in s]
+    return sum(len(ans) for ans in answers)
 
 
 if __name__ == "__main__":
-    print(answer_checker(file))
+    print(solver(file_reader(file)))
