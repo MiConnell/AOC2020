@@ -24,7 +24,7 @@ def _solver(s: str, x_shift: int, y_shift: int) -> int:
     return total
 
 
-def tree_solver(s: str) -> int:
+def solver(s: str) -> int:
     return (
         _solver(s, 1, 1)
         * _solver(s, 3, 1)
@@ -35,7 +35,7 @@ def tree_solver(s: str) -> int:
 
 
 if __name__ == "__main__":
-    print(tree_solver(file_reader(file)))
+    print(solver(file_reader(file)))
 
 """
 Right 1, down 1.
