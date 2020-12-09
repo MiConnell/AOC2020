@@ -3,20 +3,24 @@ import os
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
-def password_validator(file: str) -> int:
+def file_reader(file: str) -> str:
     with open(file, "r") as f:
-        total = 0
-        for line in f.readlines():
-            ln = line.split()
-            params = ln[0]
-            min_ = int(params.split("-")[0])
-            max_ = int(params.split("-")[-1])
-            char = ln[1].replace(":", "")
-            password = ln[-1]
-            if char in password and min_ <= password.count(char) <= max_:
-                total += 1
+        return f.read()
+
+
+def solver(s: str) -> int:
+    total = 0
+    for line in s.splitlines():
+        ln = line.split()
+        params = ln[0]
+        min_ = int(params.split("-")[0])
+        max_ = int(params.split("-")[-1])
+        char = ln[1].replace(":", "")
+        password = ln[-1]
+        if char in password and min_ <= password.count(char) <= max_:
+            total += 1
     return total
 
 
 if __name__ == "__main__":
-    print(password_validator(file))
+    print(solver(file_reader(file)))
