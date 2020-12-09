@@ -1,8 +1,7 @@
+import itertools
 import os
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
-
-INVALID = 1721308972
 
 
 def file_reader(file: str) -> str:
@@ -10,11 +9,25 @@ def file_reader(file: str) -> str:
         return f.read()
 
 
+def _solver(blob: str, preamble: int) -> int:
+    b = blob.splitlines()
+    start = 0
+    while b[preamble] != b[-1]:
+        checklist = [
+            int(f) + int(s) for f, s in itertools.combinations(b[start:preamble], 2)
+        ]
+        if (goal := int(b[preamble])) not in checklist:
+            return goal
+        start += 1
+        preamble += 1
+    return 0
+
+
 def solver(blob: str) -> int:
     b = [int(b) for b in blob.splitlines()]
     start = 0
     end = 0
-    goal = INVALID
+    goal = _solver(file_reader(file), 25)
     current = b[0]
     while True:
         if current < goal:
