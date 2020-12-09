@@ -1,3 +1,4 @@
+import itertools
 import os
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
@@ -8,26 +9,20 @@ def file_reader(file: str) -> str:
         return f.read()
 
 
-def solver(blob: str) -> int:
-    with open(file, "r") as f:
-        acc = 0
-        seen_indexes = set()
-        lines = [line.strip() for line in f.readlines()]
-        ind = 0
-        while ind not in seen_indexes:
-            op, val = lines[ind].split(" ")
-            if op == "acc":
-                acc += eval(val)
-                seen_indexes.add(ind)
-                ind += 1
-            elif op == "jmp":
-                seen_indexes.add(ind)
-                ind += eval(val)
-            elif op == "nop":
-                seen_indexes.add(ind)
-                ind += 1
-    return acc
+def solver(blob: str, preamble: int) -> int:
+    b = blob.splitlines()
+    start = 0
+    while b[preamble] != b[-1]:
+        checklist = [
+            int(num[0]) + int(num[1])
+            for num in itertools.combinations(b[start:preamble], 2)
+        ]
+        if (goal := int(b[preamble])) not in checklist:
+            return goal
+        start += 1
+        preamble += 1
+    return 0
 
 
 if __name__ == "__main__":
-    print(solver(file))
+    print(solver(file_reader(file), 25))
