@@ -9,8 +9,8 @@ def file_reader(file: str) -> str:
         return f.read()
 
 
-def solver(blob: str, preamble: int) -> int:
-    b = blob.splitlines()
+def solver(s: str, preamble: int) -> int:
+    b = s.splitlines()
     start = 0
     while b[preamble] != b[-1]:
         checklist = [
