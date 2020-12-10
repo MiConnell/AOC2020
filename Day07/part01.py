@@ -7,7 +7,7 @@ from typing import List
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 PARENT = re.compile(r"^(\w+ \w+) bags contain (.+)$")
-CHILD = re.compile(r"^(\d+) (\w+ \w+)")
+CHILD = re.compile(r"(\d+) (\w+ \w+)")
 
 GOAL_BAG = "shiny gold"
 
@@ -27,6 +27,7 @@ def build_dictionary(s: str) -> DefaultDict[str, List[str]]:
 
         for _, child in CHILD.findall(children):
             parents[child].append(parent)
+
     return parents
 
 
@@ -38,6 +39,7 @@ def solver(s: DefaultDict[str, List[str]]) -> int:
         bag = options.pop()
         seen.add(bag)
         options.extend(s[bag])
+
     return len(seen - {GOAL_BAG})
 
 
