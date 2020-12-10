@@ -9,6 +9,8 @@ file = os.path.join(os.path.dirname(__file__), "blob.txt")
 PARENT = re.compile(r"^(\w+ \w+) bags contain (.+)$")
 CHILD = re.compile(r"^(\d+) (\w+ \w+)")
 
+GOAL_BAG = "shiny gold"
+
 
 def file_reader(file: str) -> str:
     with open(file, "r") as f:
@@ -16,7 +18,7 @@ def file_reader(file: str) -> str:
 
 
 def build_dictionary(s: str) -> DefaultDict[str, List[str]]:
-    parents = defaultdict(list)
+    parents: DefaultDict[str, List[str]] = defaultdict(list)
     for line in s.splitlines():
         line_match = PARENT.match(line)
         assert line_match, line
@@ -28,31 +30,19 @@ def build_dictionary(s: str) -> DefaultDict[str, List[str]]:
     return parents
 
 
-def solver(s: str) -> int:
-    bag_list = set()
-    while True:
-        for line in s.splitlines():
-            main_bag, inner = (
-                re.sub(r"[0-9]+", "", line)
-                .strip()
-                .replace("bags", "bag")
-                .strip()
-                .split("contain")
-            )
-            inner_fmt = (
-                inner.strip().replace("bags", "bag").replace(".", "").split(", ")
-            )
-            if "shiny gold bag" in inner_fmt:
-                bag_list.add(main_bag.strip())
-            else:
-                for i in inner_fmt:
-                    if i.strip() in bag_list:
-                        bag_list.add(main_bag.strip())
-        return len(bag_list)
+def solver(s: DefaultDict[str, List[str]]) -> int:
+    seen = set()
+    options = [GOAL_BAG]
+
+    while options:
+        bag = options.pop()
+        seen.add(bag)
+        options.extend(s[bag])
+    return len(seen - {GOAL_BAG})
 
 
 if __name__ == "__main__":
-    print(solver(file_reader(file)))
+    print(solver(build_dictionary(file_reader(file))))
 
 
 """
