@@ -7,4 +7,4 @@ test_file = os.path.join(os.path.dirname(__file__), "test_blob.txt")
 
 
 def test_part02():
-    assert solver(file_reader(test_file), 5) == 62
+    assert solver(file_reader(test_file)) == 19208
