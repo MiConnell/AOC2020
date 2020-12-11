@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
@@ -9,19 +10,45 @@ def file_reader(file: str) -> str:
 
 
 def solver(s: str) -> int:
-    adapters = sorted([int(n) for n in s.splitlines()])
-    current_heh = 0
-    total = {1: 0, 2: 0, 3: 1}
-    for jolty in adapters:
-        total[jolty - current_heh] += 1
-        current_heh = jolty
-    if total[1] != 0 and total[2] != 0 and total[3] != 0:
-        return total[1] * total[2] * total[3]
-    elif total[1] == 0:
-        return total[2] * total[3]
-    elif total[2] == 0:
-        return total[1] * total[3]
-    return 0
+    seats = s.splitlines()
+    x = 0
+    y = 0
+    count = 0
+    empty = "L"
+    occupied = "#"
+    floor = "."
+    for row in seats:
+        for seat in row:
+            if seat == empty:
+                if occupied not in [
+                    (seats[x - 1][y - 1] or seat),
+                    (seats[x - 1] or seat),
+                    (seats[y - 1] or seat),
+                    (seats[x + 1][y + 1] or seat),
+                    (seats[x + 1][y - 1] or seat),
+                    (seats[x - 1][y + 1] or seat),
+                    (seats[x + 1] or seat),
+                    (seats[y + 1] or seat),
+                ]:
+                    seat = occupied
+                    count += 1
+            elif seat == occupied:
+                if occupied in [
+                    (seats[x - 1][y - 1] or seat),
+                    (seats[x - 1] or seat),
+                    (seats[y - 1] or seat),
+                    (seats[x + 1][y + 1] or seat),
+                    (seats[x + 1][y - 1] or seat),
+                    (seats[x - 1][y + 1] or seat),
+                    (seats[x + 1] or seat),
+                    (seats[y + 1] or seat),
+                ]:
+                    seat = empty
+                    count += 1
+            elif seat == floor:
+                seat = floor
+
+    return count
 
 
 if __name__ == "__main__":
