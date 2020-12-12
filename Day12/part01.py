@@ -1,7 +1,5 @@
 import os
 from typing import Dict
-from typing import List
-from typing import Tuple
 
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
@@ -16,9 +14,20 @@ def file_reader(file: str) -> str:
 def change_heading(d: str, c: str, a: int) -> str:
     opts = ["N", "E", "S", "W"]
     if c == "L":
-        return opts[opts.index(d) - a % len(opts)]
+        return (
+            opts[opts.index(d) - a % len(opts)]
+            if opts.index(d) - a < 0
+            else opts[opts.index(d) - a]
+        )
     elif c == "R":
-        return opts[opts.index(d) + a % len(opts)]
+        try:
+            return (
+                opts[opts.index(d) + a % len(opts)]
+                if opts.index(d) + a >= len(opts) - 1
+                else opts[opts.index(d) + a]
+            )
+        except IndexError:
+            return "F"
     else:
         raise NotImplementedError(d)
 
@@ -34,11 +43,12 @@ def solver(s: str) -> int:
         dir = line[0]
         val = int(line[1:])
         if dir == "F":
-            directions[heading] += val
-            if directions[check_opposites(heading)] != 0:
-                directions[check_opposites(heading)] -= val
+            prev = directions[check_opposites(heading)]
+            directions[heading] += val - prev
+            if prev != 0:
+                directions[check_opposites(heading)] = max(prev - val, 0)
         elif dir in ["R", "L"]:
-            amount = val % 90
+            amount = val // 90
             heading = change_heading(heading, dir, amount)
         else:
             directions[dir] += val
