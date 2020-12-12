@@ -17,36 +17,50 @@ def solver(s: str) -> int:
     empty = "L"
     occupied = "#"
     floor = "."
-    for row in seats:
-        for seat in row:
-            if seat == empty:
-                if occupied not in [
-                    (seats[x - 1][y - 1] or seat),
-                    (seats[x - 1] or seat),
-                    (seats[y - 1] or seat),
-                    (seats[x + 1][y + 1] or seat),
-                    (seats[x + 1][y - 1] or seat),
-                    (seats[x - 1][y + 1] or seat),
-                    (seats[x + 1] or seat),
-                    (seats[y + 1] or seat),
-                ]:
-                    seat = occupied
-                    count += 1
-            elif seat == occupied:
-                if occupied in [
-                    (seats[x - 1][y - 1] or seat),
-                    (seats[x - 1] or seat),
-                    (seats[y - 1] or seat),
-                    (seats[x + 1][y + 1] or seat),
-                    (seats[x + 1][y - 1] or seat),
-                    (seats[x - 1][y + 1] or seat),
-                    (seats[x + 1] or seat),
-                    (seats[y + 1] or seat),
-                ]:
+    current = list(seats)
+    final = list(seats)
+    while current != final:
+        for _, row in enumerate(seats):
+            for _, seat in enumerate(row):
+                if seat == empty:
+                    if occupied not in [
+                        (seats[x - 1][y - 1] or seat),
+                        (seats[x - 1] or seat),
+                        (seats[y - 1] or seat),
+                        (seats[x + 1][y + 1] or seat),
+                        (seats[x + 1][y - 1] or seat),
+                        (seats[x - 1][y + 1] or seat),
+                        (seats[x + 1] or seat),
+                        (seats[y + 1] or seat),
+                    ]:
+                        seat = occupied
+                        count += 1
+                elif seat == occupied:
+                    # if (
+                    #     sum(
+                    #         1
+                    #         if occupied in (seats[x - 1][y - 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[x - 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[y - 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[x + 1][y + 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[x + 1][y - 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[x - 1][y + 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[x + 1] or ["0"])
+                    #         else 0 or 1
+                    #         if occupied in (seats[y + 1] or ["0"])
+                    #         else 0,
+                    #     )
+                    #     >= 4
+                    # ):
                     seat = empty
-                    count += 1
-            elif seat == floor:
-                seat = floor
+                elif seat == floor:
+                    seat = floor
 
     return count
 
