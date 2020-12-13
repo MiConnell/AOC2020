@@ -13,7 +13,7 @@ def file_reader(file: str) -> str:
 
 def solver(s: str) -> int:
     for line in s.splitlines():
-        ...
+        print(line)
     return 0
 
 
