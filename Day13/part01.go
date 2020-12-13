@@ -10,11 +10,12 @@ import (
 )
 
 func fileReader(file string) []string {
-
 	f, err := os.Open(file)
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer f.Close()
 	var ret []string
 	scanner := bufio.NewScanner(f)
@@ -33,12 +34,14 @@ func solver(s []string) int {
 	var busIDs []int
 	maxMod := 0
 	currBus := 0
+
 	for _, bus := range busses {
 		if bus != "x" {
 			b, _ := strconv.Atoi(bus)
 			busIDs = append(busIDs, b)
 		}
 	}
+
 	for _, bus := range busIDs {
 		mod := timestamp % bus
 		if mod > maxMod {
@@ -46,6 +49,7 @@ func solver(s []string) int {
 			currBus = bus
 		}
 	}
+
 	for i := finalTimestamp; i%currBus != 0; i++ {
 		finalTimestamp++
 	}
