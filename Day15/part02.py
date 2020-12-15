@@ -1,7 +1,5 @@
 import os
 
-from sympy.ntheory.modular import crt
-
 file = os.path.join(os.path.dirname(__file__), "blob.txt")
 
 
@@ -11,14 +9,17 @@ def file_reader(file: str) -> str:
 
 
 def solver(s: str) -> int:
-    bus_ids = [
-        (int(bus), i)
-        for i, bus in enumerate(s.splitlines()[1].split(","))
-        if bus != "x"
-    ]
-    busses = [b[0] for b in bus_ids]
-    final = [-1 * b[1] for b in bus_ids]
-    return crt(busses, final)[0]
+    seen = [(int(n), i) for i, n in enumerate(s.strip().split(","), 1)]
+    last_idx = seen[-1][1]
+    while len(seen) < 30_000_000:
+        last_num = seen[-1][0]
+        if last_num in [se[0] for se in seen[: last_idx - 1]]:
+            contenders = [c for c in seen[: last_idx - 1] if c[0] == last_num]
+            seen.append((last_idx - contenders[-1][1], last_idx + 1))
+        else:
+            seen.append((0, last_idx + 1))
+        last_idx += 1
+    return seen[-1][0]
 
 
 if __name__ == "__main__":
