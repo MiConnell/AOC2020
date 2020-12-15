@@ -9,9 +9,17 @@ def file_reader(file: str) -> str:
 
 
 def solver(s: str) -> int:
-    for line in s.splitlines():
-        return int(line)
-    return 0
+    seen = [(int(n), i) for i, n in enumerate(s.strip().split(","), 1)]
+    last_idx = seen[-1][1]
+    while len(seen) < 2020:
+        last_num = seen[-1][0]
+        if last_num in [se[0] for se in seen[: last_idx - 1]]:
+            contenders = [c for c in seen[: last_idx - 1] if c[0] == last_num]
+            seen.append((last_idx - contenders[-1][1], last_idx + 1))
+        else:
+            seen.append((0, last_idx + 1))
+        last_idx += 1
+    return seen[-1][0]
 
 
 if __name__ == "__main__":
